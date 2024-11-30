@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pesa/shared/colors.dart';
+import 'package:pesa/src/app/routes.dart';
 import 'package:pesa/src/features/notifications/services/notifications_service.dart';
 import 'package:pesa/src/features/notifications/models/notification.dart'
     as local_notification;
@@ -19,6 +20,7 @@ class NotificationsScreen extends StatelessWidget {
     final brightness = Theme.of(context).brightness;
 
     return Scaffold(
+      backgroundColor: AppColors.primaryBackground(brightness),
       appBar: AppBar(
         elevation: 0,
         leading: IconButton(
@@ -26,26 +28,42 @@ class NotificationsScreen extends StatelessWidget {
               Icon(Icons.arrow_back, color: AppColors.primaryText(brightness)),
           onPressed: () => Navigator.pop(context),
         ),
+        backgroundColor: AppColors.primaryBackground(brightness),
+        centerTitle: true,
         title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               'Notificaciones',
               style: TextStyle(
                 color: AppColors.primaryText(brightness),
                 fontSize: 20,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w600,
               ),
             ),
             SizedBox(width: 8),
-            CircleAvatar(
-              radius: 10,
-              backgroundColor: AppColors.accent,
-              child: Text(
-                '${newNotifications.length}',
-                style: TextStyle(
-                  color: AppColors.primaryText(brightness),
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
+            Container(
+              width: 20,
+              height: 20,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: LinearGradient(
+                  colors: [
+                    AppColors.primary(brightness),
+                    AppColors.secondary(brightness),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+              ),
+              child: Center(
+                child: Text(
+                  '${newNotifications.length}',
+                  style: TextStyle(
+                    color: AppColors.primaryText(brightness),
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
@@ -55,7 +73,9 @@ class NotificationsScreen extends StatelessWidget {
           IconButton(
             icon:
                 Icon(Icons.settings, color: AppColors.primaryText(brightness)),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, AppRoutes.settings);
+            },
           ),
         ],
       ),
@@ -64,10 +84,9 @@ class NotificationsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // New Notifications Section
             if (newNotifications.isNotEmpty)
               _notificationSection('Nuevos', newNotifications, brightness),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Read Notifications Section
             if (readNotifications.isNotEmpty)
@@ -82,42 +101,55 @@ class NotificationsScreen extends StatelessWidget {
       String title,
       List<local_notification.Notification> notifications,
       Brightness brightness) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: TextStyle(
-            color: AppColors.primaryText(brightness),
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20),
+      decoration: BoxDecoration(
+        color: AppColors.secondaryBackground(brightness),
+        borderRadius: BorderRadius.circular(18),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+              color: AppColors.primaryText(brightness),
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
           ),
-        ),
-        SizedBox(height: 10),
-        ...notifications.map((notification) {
-          return _notificationCard(notification, brightness);
-        }).toList(),
-      ],
+          const SizedBox(height: 15),
+          ...notifications.map((notification) {
+            return _notificationCard(notification, brightness);
+          }).toList(),
+        ],
+      ),
     );
   }
 
   Widget _notificationCard(
       local_notification.Notification notification, Brightness brightness) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12.0),
-      padding: const EdgeInsets.all(16.0),
+      margin: const EdgeInsets.only(bottom: 15.0),
       decoration: BoxDecoration(
         color: AppColors.cardBackground(brightness),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(
-            Icons.check_circle,
-            color: AppColors.green,
-            size: 24,
+          Container(
+            padding: const EdgeInsets.all(15),
+            decoration: BoxDecoration(
+                color: AppColors.primaryBackground(brightness),
+                shape: BoxShape.circle),
+            child: Icon(
+              Icons.check,
+              color: AppColors.primaryText(brightness),
+              size: 24,
+            ),
           ),
-          SizedBox(width: 16),
+          const SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -126,16 +158,16 @@ class NotificationsScreen extends StatelessWidget {
                   notification.title,
                   style: TextStyle(
                     color: AppColors.primaryText(brightness),
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
                 SizedBox(height: 4),
                 Text(
                   notification.description,
                   style: TextStyle(
-                    color: AppColors.secondaryText(brightness),
-                    fontSize: 14,
+                    color: AppColors.primaryText(brightness),
+                    fontSize: 13,
                   ),
                 ),
                 SizedBox(height: 8),
@@ -146,14 +178,14 @@ class NotificationsScreen extends StatelessWidget {
                       notification.date,
                       style: TextStyle(
                         color: AppColors.secondaryText(brightness),
-                        fontSize: 12,
+                        fontSize: 15,
                       ),
                     ),
                     Text(
                       notification.time,
                       style: TextStyle(
                         color: AppColors.secondaryText(brightness),
-                        fontSize: 12,
+                        fontSize: 15,
                       ),
                     ),
                   ],
@@ -161,7 +193,7 @@ class NotificationsScreen extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(width: 8),
+          const SizedBox(width: 8),
           Icon(Icons.arrow_forward_ios,
               color: AppColors.secondaryText(brightness), size: 16),
         ],

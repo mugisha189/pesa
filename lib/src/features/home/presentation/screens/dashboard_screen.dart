@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pesa/shared/colors.dart';
 import 'package:pesa/shared/images.dart';
+import 'package:pesa/src/app/routes.dart';
 
 class DashboardScreen extends StatelessWidget {
   @override
@@ -38,8 +39,67 @@ class DashboardScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Icon(Icons.settings,
-                      color: AppColors.primaryText(brightness)),
+                  Row(
+                    mainAxisAlignment:
+                        MainAxisAlignment.end, // Align icons in a row
+                    children: [
+                      // Settings Icon with Circular Background
+                      Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.secondaryBackground(brightness),
+                          shape: BoxShape.circle, // Circular shape
+                        ),
+                        child: IconButton(
+                          onPressed: () {
+                            // Handle settings icon press
+                          },
+                          icon: Icon(Icons.settings),
+                          color: AppColors.primaryText(brightness)// Icon color
+                        ),
+                      ),
+                      SizedBox(width: 16), // Space between icons
+
+                      // Notifications Icon with Circular Background and Red Badge
+                      Stack(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              color: AppColors.secondaryBackground(
+                                  brightness), // Background color for the icon
+                              shape: BoxShape.circle, // Circular shape
+                            ),
+                            child: IconButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, AppRoutes.notifications);
+                              },
+                              icon: Icon(Icons.notifications),
+                              color: AppColors.primaryText(brightness)// Icon color
+                            ),
+                          ),
+                          if (true)
+                            Positioned(
+                              right: 6,
+                              top: 6,
+                              child: Container(
+                                padding: EdgeInsets.all(4),
+                                decoration: BoxDecoration(
+                                  color: Colors.red, // Red color for the badge
+                                  shape: BoxShape.circle, // Circular shape
+                                ),
+                                child: Text(
+                                  '!', // Badge text (you can use a count or other symbol)
+                                  style: TextStyle(
+                                    color: Colors.white, // Text color
+                                    fontSize: 12, // Text size
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ],
+                  )
                 ],
               ),
               SizedBox(height: 20),
@@ -86,10 +146,10 @@ class DashboardScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  _actionButton('Enviar', Icons.send,brightness),
-                  _actionButton('Retirar', Icons.money,brightness),
-                  _actionButton('Recargar', Icons.add,brightness),
-                  _actionButton('Solicitar', Icons.receipt,brightness),
+                  _actionButton('Enviar', Icons.send, brightness),
+                  _actionButton('Retirar', Icons.money, brightness),
+                  _actionButton('Recargar', Icons.add, brightness),
+                  _actionButton('Solicitar', Icons.receipt, brightness),
                 ],
               ),
               SizedBox(height: 20),
@@ -137,14 +197,14 @@ class DashboardScreen extends StatelessWidget {
               Expanded(
                 child: ListView(
                   children: [
-                    _transactionItem(
-                        'Recepción de dinero', '+\$2,000', AppColors.green,brightness),
-                    _transactionItem(
-                        'Envío de dinero', '-\$20,000', AppColors.red,brightness),
-                    _transactionItem(
-                        'Envío de dinero', '-\$20,000', AppColors.red,brightness),
-                    _transactionItem(
-                        'Recepción de dinero', '+\$2,000', AppColors.green,brightness),
+                    _transactionItem('Recepción de dinero', '+\$2,000',
+                        AppColors.green, brightness),
+                    _transactionItem('Envío de dinero', '-\$20,000',
+                        AppColors.red, brightness),
+                    _transactionItem('Envío de dinero', '-\$20,000',
+                        AppColors.red, brightness),
+                    _transactionItem('Recepción de dinero', '+\$2,000',
+                        AppColors.green, brightness),
                   ],
                 ),
               ),
@@ -155,7 +215,7 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 
-  Widget _actionButton(String label, IconData icon,Brightness brightness) {
+  Widget _actionButton(String label, IconData icon, Brightness brightness) {
     return Column(
       children: [
         CircleAvatar(
@@ -175,14 +235,15 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 
-  Widget _transactionItem(String title, String amount, Color amountColor,Brightness brightness) {
+  Widget _transactionItem(
+      String title, String amount, Color amountColor, Brightness brightness) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
-            crossAxisAlignment: CrossAxisAlignment.start, 
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 title,

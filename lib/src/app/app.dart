@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'routes.dart';
 
 class MyApp extends StatelessWidget {
@@ -6,9 +7,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Pesa',
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        textTheme: GoogleFonts.poppinsTextTheme(),
+      ),
       initialRoute: AppRoutes.login,
       onGenerateRoute: AppRoutes.generateRoute,
     );
