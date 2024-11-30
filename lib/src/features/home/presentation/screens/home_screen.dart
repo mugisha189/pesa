@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pesa/shared/images.dart';
 import 'package:pesa/src/features/home/presentation/screens/benefits_screen.dart';
+import 'package:pesa/src/features/home/presentation/screens/dashboard_screen.dart';
 import 'package:pesa/src/features/home/presentation/screens/functions_screen.dart';
-import 'package:pesa/src/features/home/presentation/screens/notifications_screen.dart';
-import 'package:pesa/src/features/home/presentation/screens/settings_screen.dart';
 import 'package:pesa/src/features/home/presentation/screens/statistics_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -13,12 +14,18 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
 
-  final List<Widget> _children = [
+  final List<Widget> _screens = [
+    DashboardScreen(),
     FunctionsScreen(),
     BenefitsScreen(),
     StatisticsScreen(),
-    NotificationsScreen(),
-    SettingsScreen(),
+  ];
+
+  final List<String> _labels = [
+    'Home',
+    'Functions',
+    'Benefits',
+    'Settings',
   ];
 
   void onTabTapped(int index) {
@@ -30,19 +37,28 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Home')),
-      body: _children[_currentIndex],
+      body: _screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         onTap: onTabTapped,
         currentIndex: _currentIndex,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Functions'),
-          BottomNavigationBarItem(icon: Icon(Icons.star), label: 'Benefits'),
-          BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: 'Statistics'),
-          BottomNavigationBarItem(icon: Icon(Icons.notifications), label: 'Notifications'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
-        ],
+        backgroundColor:
+            Colors.black,
+        selectedItemColor: Theme.of(context).primaryColor,
+        unselectedItemColor: Colors.white, 
+        type: BottomNavigationBarType.fixed,
+        items: List.generate(AppImages.bottomNavbarIcons.length, (index) {
+          return BottomNavigationBarItem(
+            icon: SvgPicture.asset(
+              _currentIndex == index
+                  ? AppImages.bottomNavbarActiveIcons[index]
+                  : AppImages.bottomNavbarIcons[index],
+              height: 24,
+              width: 24, 
+            ),
+            label: _labels[index], 
+          );
+        }),
       ),
     );
   }
-} 
+}

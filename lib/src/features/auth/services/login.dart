@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-class SignupLogic {
-  String? fullName;
+class LoginServices {
   String? phoneNumber;
   String? password;
 
@@ -9,16 +8,6 @@ class SignupLogic {
 
   void togglePasswordVisibility() {
     isPasswordHidden.value = !isPasswordHidden.value;
-  }
-
-  String? validateFullName(String? value) {
-    if (value == null || value.isEmpty) {
-      return "El nombre completo es obligatorio.";
-    }
-    if (value.length < 3) {
-      return "El nombre debe tener al menos 3 caracteres.";
-    }
-    return null;
   }
 
   String? validatePhoneNumber(String? value) {

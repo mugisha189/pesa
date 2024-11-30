@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:pesa/shared/colors.dart';
+import 'package:pesa/shared/widgets/gradient_text.dart';
 import 'package:pesa/src/app/routes.dart';
-import 'package:pesa/src/features/auth/logic/login.dart';
+import 'package:pesa/src/features/auth/services/login.dart';
 
 class LoginScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
-  final LoginLogic _loginLogic = LoginLogic();
+  final LoginServices _loginServices = LoginServices();
 
   LoginScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDarkMode = theme.brightness == Brightness.dark;
+    final brightness = Theme.of(context).brightness;
 
     return Scaffold(
+      backgroundColor: AppColors.primaryBackground(brightness),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Center(
@@ -34,46 +36,50 @@ class LoginScreen extends StatelessWidget {
                   Center(
                     child: Text(
                       "Iniciar Sesión",
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.primaryText(brightness),
                       ),
                     ),
                   ),
                   const SizedBox(height: 40),
                   TextFormField(
-                    style: theme.textTheme.bodyLarge,
+                    style: TextStyle(
+                        fontSize: 16, color: AppColors.primaryText(brightness)),
                     keyboardType: TextInputType.phone,
                     decoration: InputDecoration(
                       labelText: "Número de celular",
-                      labelStyle: theme.textTheme.bodyMedium,
+                      labelStyle: TextStyle(
+                          fontSize: 16,
+                          color: AppColors.secondaryText(brightness)),
                       filled: true,
-                      fillColor:
-                          isDarkMode ? Colors.grey[850] : Colors.grey[200],
+                      fillColor: AppColors.secondaryBackground(brightness),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                         borderSide: BorderSide.none,
                       ),
                     ),
-                    validator: _loginLogic.validatePhoneNumber,
+                    validator: _loginServices.validatePhoneNumber,
                     onSaved: (value) {
-                      _loginLogic.phoneNumber = value;
+                      _loginServices.phoneNumber = value;
                     },
                   ),
                   const SizedBox(height: 20),
                   ValueListenableBuilder<bool>(
-                    valueListenable: _loginLogic.isPasswordHidden,
+                    valueListenable: _loginServices.isPasswordHidden,
                     builder: (context, isHidden, child) {
                       return TextFormField(
-                        style: theme.textTheme.bodyLarge,
+                        style: TextStyle(
+                        fontSize: 16, color: AppColors.primaryText(brightness)),
                         obscureText: isHidden,
                         decoration: InputDecoration(
                           labelText: "Contraseña",
-                          labelStyle: theme.textTheme.bodyMedium,
+                          labelStyle: TextStyle(
+                              fontSize: 16,
+                              color: AppColors.secondaryText(brightness)),
                           filled: true,
-                          fillColor:
-                              isDarkMode ? Colors.grey[850] : Colors.grey[200],
+                          fillColor: AppColors.secondaryBackground(brightness),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
                             borderSide: BorderSide.none,
@@ -83,14 +89,14 @@ class LoginScreen extends StatelessWidget {
                               isHidden
                                   ? Icons.visibility_off
                                   : Icons.visibility,
-                              color: theme.colorScheme.onBackground,
+                              color: AppColors.secondaryText(brightness),
                             ),
-                            onPressed: _loginLogic.togglePasswordVisibility,
+                            onPressed: _loginServices.togglePasswordVisibility,
                           ),
                         ),
-                        validator: _loginLogic.validatePassword,
+                        validator: _loginServices.validatePassword,
                         onSaved: (value) {
-                          _loginLogic.password = value;
+                          _loginServices.password = value;
                         },
                       );
                     },
@@ -98,17 +104,26 @@ class LoginScreen extends StatelessWidget {
                   const SizedBox(height: 10),
                   Center(
                     child: TextButton(
-                      onPressed: () {
-                        // TODO: Implement forgot password navigation
-                      },
-                      child: Text(
-                        "¿Olvidaste tu contraseña?",
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          color: theme.colorScheme.secondary,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                    ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, AppRoutes.reset);
+                        },
+                        child: GradientText(
+                          text: "¿Olvidaste tu contraseña?",
+                          style: TextStyle(
+                              color: AppColors.secondaryText(brightness),
+                              decoration: TextDecoration.underline,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600),
+                          underline: true,
+                          gradient: LinearGradient(
+                            colors: [
+                              AppColors.tertiary(brightness),
+                              AppColors.quaternary(brightness),
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                        )),
                   ),
                   const SizedBox(height: 30),
                   SizedBox(
@@ -117,20 +132,19 @@ class LoginScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
-                            theme.colorScheme.primary,
-                            theme.colorScheme.secondary,
+                            AppColors.primary(brightness),
+                            AppColors.secondary(brightness),
                           ],
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                         ),
-                        borderRadius: BorderRadius.circular(
-                            8), // Matches button border radius
+                        borderRadius: BorderRadius.circular(100),
                       ),
                       child: ElevatedButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
-                            _loginLogic.submit(
+                            _loginServices.submit(
                               () =>
                                   Navigator.pushNamed(context, AppRoutes.home),
                             );
@@ -142,14 +156,13 @@ class LoginScreen extends StatelessWidget {
                           shadowColor:
                               Colors.transparent, // Removes button shadow
                           padding: const EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
                         ),
                         child: Text(
                           "Iniciar sesión",
-                          style: theme.textTheme.bodyLarge?.copyWith(
-                            color: theme.colorScheme.onPrimary,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.tertiaryText(brightness),
                           ),
                         ),
                       ),
@@ -157,17 +170,26 @@ class LoginScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, AppRoutes.signup);
-                    },
-                    child: Text(
-                      "Registrarse",
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: theme.colorScheme.secondary,
-                        decoration: TextDecoration.underline,
-                      ),
-                    ),
-                  ),
+                      onPressed: () {
+                        Navigator.pushNamed(context, AppRoutes.signup);
+                      },
+                      child: GradientText(
+                        text: "Registrarse",
+                        style: TextStyle(
+                            color: AppColors.secondaryText(brightness),
+                            decoration: TextDecoration.underline,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600),
+                        underline: true,
+                        gradient: LinearGradient(
+                          colors: [
+                            AppColors.tertiary(brightness),
+                            AppColors.quaternary(brightness),
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                      )),
                 ],
               ),
             ),
