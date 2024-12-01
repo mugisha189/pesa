@@ -51,7 +51,7 @@ class DashboardScreen extends StatelessWidget {
                         ),
                         child: IconButton(
                           onPressed: () {
-                            // Handle settings icon press
+                            Navigator.pushNamed(context, AppRoutes.settings);
                           },
                           icon: Icon(Icons.settings),
                           color: AppColors.primaryText(brightness)// Icon color

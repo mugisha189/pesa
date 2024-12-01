@@ -4,8 +4,8 @@ import 'package:pesa/shared/colors.dart';
 import 'package:pesa/shared/images.dart';
 import 'package:pesa/src/features/home/presentation/screens/benefits_screen.dart';
 import 'package:pesa/src/features/home/presentation/screens/dashboard_screen.dart';
-import 'package:pesa/src/features/home/presentation/screens/functions_screen.dart';
 import 'package:pesa/src/features/home/presentation/screens/statistics_screen.dart';
+import 'package:pesa/src/features/home/presentation/widgets/functions_widget.dart'; 
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -17,7 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<Widget> _screens = [
     DashboardScreen(),
-    FunctionsScreen(),
+    Container(), 
     BenefitsScreen(),
     StatisticsScreen(),
   ];
@@ -31,8 +31,22 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void onTabTapped(int index) {
     setState(() {
-      _currentIndex = index;
+      if (index == 1) {
+        _showFunctionsModal();
+      } else {
+        _currentIndex = index;
+      }
     });
+  }
+  void _showFunctionsModal() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (BuildContext context) {
+        return FunctionsWidget();
+      },
+    );
   }
 
   @override
@@ -51,13 +65,11 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: AppColors.primaryBackground(brightness),
           selectedItemColor: Theme.of(context).primaryColor,
           unselectedItemColor: AppColors.primaryText(brightness),
-          selectedLabelStyle:const     TextStyle(
-            height:
-                2.0, 
+          selectedLabelStyle: const TextStyle(
+            height: 2.0,
           ),
           unselectedLabelStyle: const TextStyle(
-            height:
-                2.0,
+            height: 2.0,
           ),
           type: BottomNavigationBarType.fixed,
           items: List.generate(AppImages.bottomNavbarIcons.length, (index) {

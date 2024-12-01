@@ -5,6 +5,8 @@ class AppColors {
   static const Color _primaryBackgroundDark = Color(0xFF131512);
   static const Color _secondaryBackgroundLight = Color(0xFFF5F5F5);
   static const Color _secondaryBackgroundDark = Color(0xFF2A2C29);
+    static const Color _tertiaryBackgroundLight = Color(0xFFF3F3F3);
+  static const Color _tertiaryBackgroundDark = Color(0xFFF3F3F3);
   static const Color _cardBackgroundLight = Color(0xFFF5F5F5);
   static const Color _cardBackgroundDark = Color(0xFF2A2A2A);
   static const Color _primaryLight = Color(0xFFA7B5FE);
@@ -35,6 +37,12 @@ class AppColors {
       brightness != Brightness.dark
           ? _secondaryBackgroundDark
           : _secondaryBackgroundLight;
+
+
+    static Color tertiaryBackground(Brightness brightness) =>
+      brightness != Brightness.dark
+          ? _tertiaryBackgroundDark
+          : _tertiaryBackgroundLight;
 
   static Color cardBackground(Brightness brightness) =>
       brightness != Brightness.dark
