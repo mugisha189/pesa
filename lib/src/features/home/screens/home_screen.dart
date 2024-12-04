@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pesa/shared/colors.dart';
 import 'package:pesa/shared/images.dart';
-import 'package:pesa/src/features/home/presentation/screens/benefits_screen.dart';
-import 'package:pesa/src/features/home/presentation/screens/dashboard_screen.dart';
-import 'package:pesa/src/features/home/presentation/screens/statistics_screen.dart';
-import 'package:pesa/src/features/home/presentation/widgets/functions_widget.dart'; 
+import 'package:pesa/src/features/home/screens/benefits_screen.dart';
+import 'package:pesa/src/features/home/screens/dashboard_screen.dart';
+import 'package:pesa/src/features/home/screens/statistics_screen.dart';
+import 'package:pesa/src/features/home/widgets/functions_widget.dart'; 
 
 class HomeScreen extends StatefulWidget {
   @override

@@ -15,7 +15,7 @@ class AppImages {
 
   static String americanFlag = 'assets/images/america.png';
   static String ads = 'assets/images/ads.png';
-  static String withdrawIcon = 'assets/icons/withdraw.svg';
+  static String withdrawIcon = 'assets/icons/withdrawal.svg';
   static String depositIcon = 'assets/icons/deposit.svg';
   static String sendIcon = 'assets/icons/send.svg';
   static String requestIcon = 'assets/icons/request.svg';
@@ -24,5 +24,5 @@ class AppImages {
   static String convertIcon2 = 'assets/icons/convert.svg';
   static String addAccountIcon = 'assets/icons/addAccount.svg';
   static String depositIcon2 = 'assets/icons/deposit.svg';
-  static String withdrawIcon2 = 'assets/icons/withdraw.svg';
+  static String withdrawIcon2 = 'assets/icons/withdrawal.svg';
 }
