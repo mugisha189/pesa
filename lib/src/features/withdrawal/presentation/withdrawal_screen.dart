@@ -14,7 +14,7 @@ class WithdrawalScreen extends StatefulWidget {
 }
 
 class _WithdrawalScreenState extends State<WithdrawalScreen> {
-  Withdrawal withdrawal = Withdrawal(amount: 100.0, method: 'Bank Transfer');
+  Withdrawal withdrawal = Withdrawal(amount: 100.0, method: 'Bank Transfer',card: "asdfasd");
   late Widget currentComponent;
 
   @override
