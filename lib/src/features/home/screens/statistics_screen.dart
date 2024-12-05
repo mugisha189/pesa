@@ -26,7 +26,8 @@ class StatisticsScreen extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: SingleChildScrollView( // Wrap content with SingleChildScrollView
+      body: SingleChildScrollView(
+        // Wrap content with SingleChildScrollView
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
@@ -42,12 +43,15 @@ class StatisticsScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'Ingresos y egresos',
-                        style: TextStyle(
-                          color: AppColors.primaryText(brightness),
-                          fontSize: 17,
-                          fontWeight: FontWeight.w600,
+                      Expanded(
+                        child: Text(
+                          'Ingresos y egresos',
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: AppColors.primaryText(brightness),
+                            fontSize: 17,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                       Row(
@@ -92,9 +96,7 @@ class StatisticsScreen extends StatelessWidget {
                           PopupMenuButton<String>(
                             icon: Icon(Icons.more_vert,
                                 color: AppColors.primaryText(brightness)),
-                            onSelected: (value) {
-                              // Handle menu item selection here
-                            },
+                            onSelected: (value) {},
                             itemBuilder: (context) => [
                               PopupMenuItem(
                                 value: 'Option 1',
@@ -151,7 +153,7 @@ class StatisticsScreen extends StatelessWidget {
                     'Número de transacciones',
                     style: TextStyle(
                       color: AppColors.primaryText(brightness),
-                      fontSize: 17,
+                      fontSize: 15,
                       fontWeight: FontWeight.w600,
                     ),
                   ),

@@ -11,7 +11,7 @@ class FunctionsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final brightness = Theme.of(context).brightness;
     return Container(
-      height: MediaQuery.of(context).size.height * 0.45,
+      height: MediaQuery.of(context).size.height * 0.55,
       decoration: BoxDecoration(
         color: AppColors.primaryText(brightness),
         borderRadius: const BorderRadius.only(
@@ -68,6 +68,7 @@ class FunctionsWidget extends StatelessWidget {
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
                           ),
+                          textAlign: TextAlign.center,
                         ),
                       ],
                     ),

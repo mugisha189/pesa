@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:pesa/shared/colors.dart';
 import 'package:pesa/src/app/routes.dart';
 
 class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final brightness  = Theme.of(context).brightness;
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: AppColors.primaryBackground(brightness),
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: AppColors.primaryBackground(brightness),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          icon: Icon(Icons.arrow_back, color: AppColors.primaryText(brightness)),
           onPressed: () => Navigator.of(context).pop(),
         ),
         centerTitle: true,
         title: Text(
           'Configuración',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: AppColors.primaryText(brightness)),
         ),
         elevation: 0,
       ),
@@ -30,14 +32,14 @@ class SettingsScreen extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 40,
-                      backgroundColor: Colors.white,
-                      child: Icon(Icons.person, size: 40, color: Colors.black),
+                      backgroundColor: AppColors.primaryText(brightness),
+                      child: Icon(Icons.person, size: 40, color: AppColors.primaryBackground(brightness)),
                     ),
                     SizedBox(height: 8),
                     Text(
                       'Lucas Scott',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: AppColors.primaryText(brightness),
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
@@ -64,23 +66,23 @@ class SettingsScreen extends StatelessWidget {
                     Text(
                       "General",
                       style: TextStyle(
-                          color: Colors.white,
+                          color: AppColors.primaryText(brightness),
                           fontWeight: FontWeight.w600,
                           fontSize: 16),
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20),
                     InkWell(
                       onTap: () {},
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 18),
+                      child: Container(
+                        height: 50, // Set a fixed height for consistent spacing
                         child: Row(
                           children: [
-                            Icon(Icons.person, color: Colors.white),
-                            const SizedBox(width: 16),
+                            Icon(Icons.person, color: AppColors.primaryText(brightness)),
+                            SizedBox(width: 16),
                             Expanded(
                               child: Text(
                                 'Información personal',
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: AppColors.primaryText(brightness)),
                               ),
                             ),
                             Icon(Icons.arrow_forward_ios, color: Colors.grey),
@@ -92,16 +94,16 @@ class SettingsScreen extends StatelessWidget {
                       onTap: () {
                         Navigator.pushNamed(context, AppRoutes.security);
                       },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 18),
+                      child: Container(
+                        height: 50, // Set a fixed height for consistent spacing
                         child: Row(
                           children: [
-                            Icon(Icons.notifications, color: Colors.white),
-                            const SizedBox(width: 16),
+                            Icon(Icons.notifications, color: AppColors.primaryText(brightness)),
+                            SizedBox(width: 16),
                             Expanded(
                               child: Text(
                                 'Notificaciones',
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: AppColors.primaryText(brightness)),
                               ),
                             ),
                             Icon(Icons.arrow_forward_ios, color: Colors.grey),
@@ -113,16 +115,16 @@ class SettingsScreen extends StatelessWidget {
                       onTap: () {
                         Navigator.pushNamed(context, AppRoutes.security);
                       },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 18),
+                      child: Container(
+                        height: 50, // Set a fixed height for consistent spacing
                         child: Row(
                           children: [
-                            Icon(Icons.security, color: Colors.white),
-                            const SizedBox(width: 16),
+                            Icon(Icons.security, color: AppColors.primaryText(brightness)),
+                            SizedBox(width: 16),
                             Expanded(
                               child: Text(
                                 'Seguridad',
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: AppColors.primaryText(brightness)),
                               ),
                             ),
                             Icon(Icons.arrow_forward_ios, color: Colors.grey),
@@ -134,16 +136,16 @@ class SettingsScreen extends StatelessWidget {
                       onTap: () {
                         Navigator.pushNamed(context, AppRoutes.changeLanguages);
                       },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 12),
+                      child: Container(
+                        height: 50, // Set a fixed height for consistent spacing
                         child: Row(
                           children: [
-                            Icon(Icons.language, color: Colors.white),
-                            const SizedBox(width: 16),
+                            Icon(Icons.language, color: AppColors.primaryText(brightness)),
+                            SizedBox(width: 16),
                             Expanded(
                               child: Text(
                                 'Lenguaje',
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: AppColors.primaryText(brightness)),
                               ),
                             ),
                             Text(
@@ -156,16 +158,16 @@ class SettingsScreen extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {},
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 12),
+                      child: Container(
+                        height: 50, // Set a fixed height for consistent spacing
                         child: Row(
                           children: [
-                            Icon(Icons.dark_mode, color: Colors.white),
-                            const SizedBox(width: 16),
+                            Icon(Icons.dark_mode, color: AppColors.primaryText(brightness)),
+                            SizedBox(width: 16),
                             Expanded(
                               child: Text(
                                 'Modo oscuro',
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: AppColors.primaryText(brightness)),
                               ),
                             ),
                             Switch(
@@ -186,50 +188,102 @@ class SettingsScreen extends StatelessWidget {
                   color: Color(0xFF1E1E1E),
                   borderRadius: BorderRadius.circular(8),
                 ),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ListTile(
-                      leading: Icon(Icons.privacy_tip, color: Colors.white),
-                      title: Text(
-                        'Política de privacidad',
-                        style: TextStyle(color: Colors.white),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      child: Text(
+                        "Acerca de",
+                        style: TextStyle(
+                          color: AppColors.primaryText(brightness),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
                       ),
-                      trailing:
-                          Icon(Icons.arrow_forward_ios, color: Colors.grey),
                     ),
-                    Divider(color: Colors.grey),
-                    ListTile(
-                      leading: Icon(Icons.help_center, color: Colors.white),
-                      title: Text(
-                        'Centro de ayuda',
-                        style: TextStyle(color: Colors.white),
+                    InkWell(
+                      onTap: () {},
+                      child: Container(
+                        height: 50, // Set a fixed height for consistent spacing
+                        child: Row(
+                          children: [
+                            Icon(Icons.privacy_tip, color: AppColors.primaryText(brightness)),
+                            SizedBox(width: 16),
+                            Expanded(
+                              child: Text(
+                                'Política de privacidad',
+                                style: TextStyle(color: AppColors.primaryText(brightness)),
+                              ),
+                            ),
+                            Icon(Icons.arrow_forward_ios, color: Colors.grey),
+                          ],
+                        ),
                       ),
-                      trailing:
-                          Icon(Icons.arrow_forward_ios, color: Colors.grey),
                     ),
-                    Divider(color: Colors.grey),
-                    ListTile(
-                      leading: Icon(Icons.info, color: Colors.white),
-                      title: Text(
-                        'Sobre PASA app',
-                        style: TextStyle(color: Colors.white),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, AppRoutes.help);
+                      },
+                      child: Container(
+                        height: 50, // Set a fixed height for consistent spacing
+                        child: Row(
+                          children: [
+                            Icon(Icons.help_center, color: AppColors.primaryText(brightness)),
+                            SizedBox(width: 16),
+                            Expanded(
+                              child: Text(
+                                'Centro de ayuda',
+                                style: TextStyle(color: AppColors.primaryText(brightness)),
+                              ),
+                            ),
+                            Icon(Icons.arrow_forward_ios, color: Colors.grey),
+                          ],
+                        ),
                       ),
-                      trailing:
-                          Icon(Icons.arrow_forward_ios, color: Colors.grey),
+                    ),
+                    InkWell(
+                      onTap: () {},
+                      child: Container(
+                        height: 50, // Set a fixed height for consistent spacing
+                        child: Row(
+                          children: [
+                            Icon(Icons.info, color: AppColors.primaryText(brightness)),
+                            SizedBox(width: 16),
+                            Expanded(
+                              child: Text(
+                                'Sobre PASA app',
+                                style: TextStyle(color: AppColors.primaryText(brightness)),
+                              ),
+                            ),
+                            Icon(Icons.arrow_forward_ios, color: Colors.grey),
+                          ],
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        // Handle sign-out action
+                      },
+                      child: Container(
+                        height: 50, // Set a fixed height for consistent spacing
+                        child: Center(
+                          child: Text(
+                            'Cerrar sesión',
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
               ),
               SizedBox(height: 24),
-              Center(
-                child: Text(
-                  'Cerrar sesión',
-                  style: TextStyle(
-                    color: Colors.red,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
             ],
           ),
         ),

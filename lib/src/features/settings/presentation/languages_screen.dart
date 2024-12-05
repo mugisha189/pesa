@@ -1,17 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:pesa/shared/colors.dart';
+import 'package:pesa/src/features/settings/services/languages.dart';
 
-class LanguagesScreen extends StatelessWidget {
+class LanguagesScreen extends StatefulWidget {
+  @override
+  _LanguagesScreenState createState() => _LanguagesScreenState();
+}
+
+class _LanguagesScreenState extends State<LanguagesScreen> {
+  final LanguageService _languageService = LanguageService();
+
   @override
   Widget build(BuildContext context) {
+    final brightness = Theme.of(context).brightness;
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: AppColors.primaryBackground(brightness),
       appBar: AppBar(
-        backgroundColor: Colors.black,
-        leading: Icon(Icons.arrow_back, color: Colors.white),
+        backgroundColor: AppColors.primaryBackground(brightness),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: AppColors.primaryText(brightness)),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
         centerTitle: true,
         title: Text(
           'Lenguaje',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: AppColors.primaryText(brightness)),
         ),
         elevation: 0,
       ),
@@ -23,7 +36,7 @@ class LanguagesScreen extends StatelessWidget {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: Color(0xFF1E1E1E),
+                  color: AppColors.secondaryBackground(brightness),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Column(
@@ -34,109 +47,45 @@ class LanguagesScreen extends StatelessWidget {
                       child: Text(
                         'Idiomas',
                         style: TextStyle(
-                          color: Colors.grey,
+                          color: AppColors.secondaryText(brightness),
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-                    Divider(color: Colors.grey),
-                    ListTile(
-                      title: Text(
-                        'French',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      trailing: Radio(
-                        value: false,
-                        groupValue: true,
-                        onChanged: (value) {},
-                        activeColor: Colors.cyan,
-                      ),
-                    ),
-                    Divider(color: Colors.grey),
-                    ListTile(
-                      title: Text(
-                        'Spanish',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      trailing: Radio(
-                        value: false,
-                        groupValue: true,
-                        onChanged: (value) {},
-                        activeColor: Colors.cyan,
-                      ),
-                    ),
-                    Divider(color: Colors.grey),
-                    ListTile(
-                      title: Text(
-                        'Italian',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      trailing: Radio(
-                        value: false,
-                        groupValue: true,
-                        onChanged: (value) {},
-                        activeColor: Colors.cyan,
-                      ),
-                    ),
-                    Divider(color: Colors.grey),
-                    ListTile(
-                      title: Text(
-                        'Germany',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      trailing: Radio(
-                        value: false,
-                        groupValue: true,
-                        onChanged: (value) {},
-                        activeColor: Colors.cyan,
-                      ),
-                    ),
-                    Divider(color: Colors.grey),
-                    ListTile(
-                      title: Text(
-                        'Chinese',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      trailing: Radio(
-                        value: false,
-                        groupValue: true,
-                        onChanged: (value) {},
-                        activeColor: Colors.cyan,
-                      ),
-                    ),
-                    Divider(color: Colors.grey),
-                    ListTile(
-                      title: Text(
-                        'Japanese',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      trailing: Radio(
-                        value: false,
-                        groupValue: true,
-                        onChanged: (value) {},
-                        activeColor: Colors.cyan,
-                      ),
-                    ),
-                    Divider(color: Colors.grey),
-                    ListTile(
-                      title: Text(
-                        'Russian',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      trailing: Radio(
-                        value: false,
-                        groupValue: true,
-                        onChanged: (value) {},
-                        activeColor: Colors.cyan,
-                      ),
-                    ),
+                    _buildLanguageTile('French', brightness),
+                    _buildLanguageTile('Spanish', brightness),
+                    _buildLanguageTile('Italian', brightness),
+                    _buildLanguageTile('German', brightness),
+                    _buildLanguageTile('Chinese', brightness),
+                    _buildLanguageTile('Japanese', brightness),
+                    _buildLanguageTile('Russian', brightness),
                   ],
                 ),
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildLanguageTile(String language, Brightness brightness) {
+    bool isSelected = _languageService.selectedLanguage == language;
+    return ListTile(
+      title: Text(
+        language,
+        style: TextStyle(color: AppColors.primaryText(brightness)),
+      ),
+      trailing: Radio(
+        value: true,
+        groupValue: isSelected,
+        onChanged: (value) {
+          setState(() {
+            _languageService.setSelectedLanguage(language);
+          });
+        },
+        activeColor: AppColors.primary(brightness),
       ),
     );
   }

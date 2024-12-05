@@ -4,7 +4,7 @@ import 'package:pesa/src/features/withdrawal/widgets/choosing_account_amount.dar
 import 'package:pesa/src/features/withdrawal/widgets/choose_method.dart';
 import 'package:pesa/src/features/withdrawal/widgets/preview.dart';
 import 'package:pesa/src/features/withdrawal/widgets/success.dart';
-import 'package:pesa/src/features/withdrawal/widgets/receipt.dart';
+// import 'package:pesa/src/features/withdrawal/widgets/receipt.dart';
 
 class WithdrawalScreen extends StatefulWidget {
   const WithdrawalScreen({Key? key}) : super(key: key);
@@ -45,14 +45,14 @@ class _WithdrawalScreenState extends State<WithdrawalScreen> {
                       currentComponent = Success(
                         withdrawal: withdrawal,
                         goToNext: () {
-                          setState(() {
-                            currentComponent = Receipt(
-                              withdrawal: withdrawal,
-                              goToNext: () {
-                                // Navigate to another screen or reset
-                              },
-                            );
-                          });
+                          // setState(() {
+                          //   currentComponent = Receipt(
+                          //     withdrawal: withdrawal,
+                          //     goToNext: () {
+                          //       // Navigate to another screen or reset
+                          //     },
+                          //   );
+                          // });
                         },
                       );
                     });

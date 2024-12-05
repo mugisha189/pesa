@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pesa/shared/colors.dart';
 import 'package:pesa/src/app/routes.dart';
 import 'package:pesa/src/features/settings/services/security.dart';
 
@@ -7,14 +8,17 @@ class SecurityScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final brightness = Theme.of(context).brightness;
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: AppColors.primaryBackground(brightness),
       appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: const Text('Seguridad', style: TextStyle(color: Colors.white)),
+        backgroundColor: AppColors.primaryBackground(brightness),
+        title: Text('Seguridad',
+            style: TextStyle(color: AppColors.primaryText(brightness))),
         elevation: 0,
+        centerTitle: true,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          icon: Icon(Icons.arrow_back, color: AppColors.primaryText(brightness)),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -22,71 +26,101 @@ class SecurityScreen extends StatelessWidget {
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
-            Container(
-              decoration: BoxDecoration(
-                color: const Color(0xFF1F1F1F),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                children: [
-                  SwitchListTile(
-                    title: const Text('Recordarme',
-                        style: TextStyle(color: Colors.white)),
-                    value: services.rememberMe,
-                    onChanged: (value) => services.toggleRememberMe(),
-                    activeColor: Colors.purple,
+            Expanded(
+              child: SingleChildScrollView(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.secondaryBackground(brightness),
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  SwitchListTile(
-                    title: const Text('SMS Autenticador',
-                        style: TextStyle(color: Colors.white)),
-                    value: services.smsAuth,
-                    onChanged: (value) => services.toggleSmsAuth(),
-                    activeColor: Colors.purple,
+                  child: Column(
+                    children: [
+                      SwitchListTile(
+                        title: Text('Recordarme',
+                            style: TextStyle(
+                                color: AppColors.primaryText(brightness))),
+                        value: services.rememberMe,
+                        onChanged: (value) => services.toggleRememberMe(),
+                        activeColor: AppColors.primary(brightness),
+                        secondary: Icon(
+                          Icons.account_circle,
+                          color: AppColors.secondaryText(brightness),
+                        ),
+                      ),
+                      SwitchListTile(
+                        title: Text('SMS Autenticador',
+                            style: TextStyle(
+                                color: AppColors.primaryText(brightness))),
+                        value: services.smsAuth,
+                        onChanged: (value) => services.toggleSmsAuth(),
+                        activeColor: AppColors.primary(brightness),
+                        secondary: Icon(
+                          Icons.sms,
+                          color: AppColors.secondaryText(brightness),
+                        ),
+                      ),
+                      SwitchListTile(
+                        title: Text('Google Autenticador',
+                            style: TextStyle(
+                                color: AppColors.primaryText(brightness))),
+                        value: services.googleAuth,
+                        onChanged: (value) => services.toggleGoogleAuth(),
+                        activeColor: AppColors.primary(brightness),
+                        secondary: Icon(
+                          Icons.security,
+                          color: AppColors.secondaryText(brightness),
+                        ),
+                      ),
+                      ListTile(
+                        title: Text('Autenticación Dos-Factores (2FA)',
+                            style: TextStyle(
+                                color: AppColors.primaryText(brightness))),
+                        trailing: Icon(Icons.arrow_forward_ios,
+                            color: AppColors.primaryText(brightness)),
+                        onTap: () =>
+                            services.navigateTo(context, AppRoutes.security),
+                        leading: Icon(
+                          Icons.lock,
+                          color: AppColors.secondaryText(brightness),
+                        ),
+                      ),
+                      ListTile(
+                        title: Text('Manejo de dispositivos',
+                            style: TextStyle(
+                                color: AppColors.primaryText(brightness))),
+                        trailing: Icon(Icons.arrow_forward_ios,
+                            color: AppColors.primaryText(brightness)),
+                        onTap: () =>
+                            services.navigateTo(context, AppRoutes.security),
+                        leading: Icon(
+                          Icons.devices,
+                          color: AppColors.secondaryText(brightness),
+                        ),
+                      ),
+                    ],
                   ),
-                  SwitchListTile(
-                    title: const Text('Google Autenticador',
-                        style: TextStyle(color: Colors.white)),
-                    value: services.googleAuth,
-                    onChanged: (value) => services.toggleGoogleAuth(),
-                    activeColor: Colors.purple,
-                  ),
-                  ListTile(
-                    title: const Text('Autenticación Dos-Factores (2FA)',
-                        style: TextStyle(color: Colors.white)),
-                    trailing: const Icon(Icons.arrow_forward_ios,
-                        color: Colors.white),
-                    onTap: () =>
-                        services.navigateTo(context, AppRoutes.security),
-                  ),
-                  ListTile(
-                    title: const Text('Manejo de dispositivos',
-                        style: TextStyle(color: Colors.white)),
-                    trailing: const Icon(Icons.arrow_forward_ios,
-                        color: Colors.white),
-                    onTap: () =>
-                        services.navigateTo(context, AppRoutes.security),
-                  ),
-                ],
+                ),
               ),
             ),
-            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () => services.changePassword(context),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.transparent,
                 shape: RoundedRectangleBorder(
-                  side: const BorderSide(color: Colors.white),
+                  side: BorderSide(color: AppColors.primaryText(brightness)),
                   borderRadius: BorderRadius.circular(30),
                 ),
                 padding:
                     const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
               ),
-              child: const Text(
+              child: Text(
                 'Cambiar contraseña',
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    color: AppColors.primaryText(brightness),
+                    fontWeight: FontWeight.bold),
               ),
             ),
+            const SizedBox(height: 20),
           ],
         ),
       ),

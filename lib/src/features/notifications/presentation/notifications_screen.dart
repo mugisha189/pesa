@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pesa/shared/colors.dart';
 import 'package:pesa/src/app/routes.dart';
 import 'package:pesa/src/features/notifications/services/notifications_service.dart';
-import 'package:pesa/src/features/notifications/models/notification.dart'
-    as local_notification;
+import 'package:pesa/src/features/notifications/models/notification.dart' as local_notification;
 import 'package:pesa/src/app/brightness_provider.dart';
 
 class NotificationsScreen extends StatelessWidget {
@@ -12,10 +11,8 @@ class NotificationsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final notifications = _notificationsService.fetchNotifications();
-    final newNotifications =
-        notifications.where((notification) => notification.isNew).toList();
-    final readNotifications =
-        notifications.where((notification) => !notification.isNew).toList();
+    final newNotifications = notifications.where((notification) => notification.isNew).toList();
+    final readNotifications = notifications.where((notification) => !notification.isNew).toList();
 
     final brightness = Theme.of(context).brightness;
 
@@ -24,8 +21,7 @@ class NotificationsScreen extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         leading: IconButton(
-          icon:
-              Icon(Icons.arrow_back, color: AppColors.primaryText(brightness)),
+          icon: Icon(Icons.arrow_back, color: AppColors.primaryText(brightness)),
           onPressed: () => Navigator.pop(context),
         ),
         backgroundColor: AppColors.primaryBackground(brightness),
@@ -43,8 +39,8 @@ class NotificationsScreen extends StatelessWidget {
             ),
             SizedBox(width: 8),
             Container(
-              width: 20,
-              height: 20,
+              width: 25,
+              height: 25,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 gradient: LinearGradient(
@@ -60,7 +56,7 @@ class NotificationsScreen extends StatelessWidget {
                 child: Text(
                   '${newNotifications.length}',
                   style: TextStyle(
-                    color: AppColors.primaryText(brightness),
+                    color: AppColors.primaryBackground(brightness),
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
                   ),
@@ -71,8 +67,7 @@ class NotificationsScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            icon:
-                Icon(Icons.settings, color: AppColors.primaryText(brightness)),
+            icon: Icon(Icons.settings, color: AppColors.primaryText(brightness)),
             onPressed: () {
               Navigator.pushNamed(context, AppRoutes.settings);
             },
@@ -81,26 +76,27 @@ class NotificationsScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (newNotifications.isNotEmpty)
-              _notificationSection('Nuevos', newNotifications, brightness),
-            const SizedBox(height: 20),
-
-            // Read Notifications Section
-            if (readNotifications.isNotEmpty)
-              _notificationSection('Leídos', readNotifications, brightness),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (newNotifications.isNotEmpty)
+                _notificationSection('Nuevos', newNotifications, brightness),
+              const SizedBox(height: 20),
+              if (readNotifications.isNotEmpty)
+                _notificationSection('Leídos', readNotifications, brightness),
+            ],
+          ),
         ),
       ),
     );
   }
 
   Widget _notificationSection(
-      String title,
-      List<local_notification.Notification> notifications,
-      Brightness brightness) {
+    String title,
+    List<local_notification.Notification> notifications,
+    Brightness brightness,
+  ) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20),
       decoration: BoxDecoration(
@@ -128,7 +124,9 @@ class NotificationsScreen extends StatelessWidget {
   }
 
   Widget _notificationCard(
-      local_notification.Notification notification, Brightness brightness) {
+    local_notification.Notification notification,
+    Brightness brightness,
+  ) {
     return Container(
       margin: const EdgeInsets.only(bottom: 15.0),
       decoration: BoxDecoration(

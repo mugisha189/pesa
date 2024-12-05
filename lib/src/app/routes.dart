@@ -3,8 +3,10 @@ import 'package:pesa/src/features/auth/presentation/complete_profile_screen.dart
 import 'package:pesa/src/features/auth/presentation/new_password_screen.dart';
 import 'package:pesa/src/features/auth/presentation/reset_screen.dart';
 import 'package:pesa/src/features/auth/presentation/verification_screen.dart';
+import 'package:pesa/src/features/send/screens/send_screen.dart';
 import 'package:pesa/src/features/settings/presentation/help_screen.dart';
 import 'package:pesa/src/features/settings/presentation/languages_screen.dart';
+import 'package:pesa/src/features/settings/presentation/security_screen.dart';
 import 'package:pesa/src/features/transactions/screens/transaction_screen.dart';
 import 'package:pesa/src/features/withdrawal/presentation/withdrawal_screen.dart';
 import '../features/auth/presentation/login_screen.dart';
@@ -23,6 +25,7 @@ class AppRoutes {
   static const String home = '/home';
   static const String transactions = '/transactions';
   static const String withdrawal = '/withdrawal';
+  static const String send = '/send';
   static const String notifications = '/notifications';
   static const String settings = '/settings';
   static const String changeLanguages = '/change-language';
@@ -49,6 +52,8 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => TransactionScreen());
       case withdrawal:
         return MaterialPageRoute(builder: (_) => WithdrawalScreen());
+      case send:
+        return MaterialPageRoute(builder: (_) => SendScreen());
       case notifications:
         return MaterialPageRoute(builder: (_) => NotificationsScreen());
       case settings:
@@ -56,7 +61,7 @@ class AppRoutes {
       case changeLanguages:
         return MaterialPageRoute(builder: (_) => LanguagesScreen());
       case security:
-        return MaterialPageRoute(builder: (_) => SettingsScreen());
+        return MaterialPageRoute(builder: (_) => SecurityScreen());
       case help:
         return MaterialPageRoute(builder: (_) => const HelpScreen());
       default:

@@ -6,6 +6,7 @@ import 'package:pesa/src/app/routes.dart';
 import 'package:pesa/src/features/home/services/dashboard_service.dart';
 import 'package:pesa/src/features/home/widgets/card_widget.dart';
 import 'package:pesa/shared/widgets/transaction_card.dart';
+import 'package:dotted_border/dotted_border.dart';
 
 class DashboardScreen extends StatelessWidget {
   final DashboardService _dashboardService = DashboardService();
@@ -65,44 +66,41 @@ class DashboardScreen extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 16),
-                        Stack(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                color:
-                                    AppColors.secondaryBackground(brightness),
-                                shape: BoxShape.circle,
-                              ),
-                              child: IconButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(
-                                      context, AppRoutes.notifications);
-                                },
-                                icon: const Icon(Icons.notifications),
-                                color: AppColors.primaryText(brightness),
-                              ),
+                        Stack(children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              color: AppColors.secondaryBackground(brightness),
+                              shape: BoxShape.circle,
                             ),
-                            Positioned(
-                              right: 6,
-                              top: 6,
-                              child: Container(
-                                padding: const EdgeInsets.all(4),
-                                decoration: const BoxDecoration(
-                                  color: Colors.red,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: const Text(
-                                  '!',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
+                            child: IconButton(
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                    context, AppRoutes.notifications);
+                              },
+                              icon: const Icon(Icons.notifications),
+                              color: AppColors.primaryText(brightness),
                             ),
-                          ],
-                        ),
+                          ),
+                          //   Positioned(
+                          //     right: 6,
+                          //     top: 6,
+                          //     child: Container(
+                          //       padding: const EdgeInsets.all(4),
+                          //       decoration: const BoxDecoration(
+                          //         color: Colors.red,
+                          //         shape: BoxShape.circle,
+                          //       ),
+                          //       child: const Text(
+                          //         '!',
+                          //         style: TextStyle(
+                          //           color: Colors.white,
+                          //           fontSize: 12,
+                          //           fontWeight: FontWeight.bold,
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ),
+                        ]),
                       ],
                     ),
                   ],
@@ -112,12 +110,59 @@ class DashboardScreen extends StatelessWidget {
                   height: 220,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: cardDataList.length,
+                    itemCount: cardDataList.length +
+                        1, // Add one for the "Añadir una divisa" button
                     itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 16.0),
-                        child: CardWidget(cardData: cardDataList[index]),
-                      );
+                      if (index < cardDataList.length) {
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 16.0),
+                          child: CardWidget(cardData: cardDataList[index]),
+                        );
+                      } else {
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 16.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              print("Añadir una divisa tapped!");
+                            },
+                            child: DottedBorder(
+                              color: const Color(0xFF878787),
+                              borderType: BorderType.RRect,
+                              radius: const Radius.circular(16),
+                              padding: const EdgeInsets.all(20.0),
+                              strokeWidth: 2,
+                              child: SizedBox(
+                                width: 400,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 22,
+                                      backgroundColor: const Color(0xFFD9D9D9),
+                                      child: Icon(
+                                        Icons.add,
+                                        color: AppColors.primaryBackground(
+                                            brightness),
+                                        size: 28,
+                                      ),
+                                    ),
+                                    const Spacer(),
+                                    Text(
+                                      "Añadir una divisa",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color:
+                                            AppColors.primaryText(brightness),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      }
                     },
                   ),
                 ),
@@ -168,7 +213,8 @@ class DashboardScreen extends StatelessWidget {
                                 GradientText(
                                   text: "Ver todo",
                                   style: TextStyle(
-                                      color: AppColors.secondaryText(brightness),
+                                      color:
+                                          AppColors.secondaryText(brightness),
                                       decoration: TextDecoration.underline,
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600),
@@ -182,7 +228,7 @@ class DashboardScreen extends StatelessWidget {
                                   ),
                                 ),
                                 const SizedBox(width: 4),
-                                                               ShaderMask(
+                                ShaderMask(
                                   shaderCallback: (bounds) => LinearGradient(
                                     colors: [
                                       AppColors.tertiary(brightness),
@@ -195,7 +241,8 @@ class DashboardScreen extends StatelessWidget {
                                     Icons.chevron_right,
                                     size: 20,
                                     color: Colors.white,
-                                  ),)
+                                  ),
+                                )
                               ],
                             ),
                           )

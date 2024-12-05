@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pesa/shared/colors.dart';
 import '../services/help.dart';
 
 class HelpScreen extends StatefulWidget {
@@ -20,9 +21,13 @@ class _HelpScreenState extends State<HelpScreen>
 
   @override
   Widget build(BuildContext context) {
+    final brightness = Theme.of(context).brightness;
     return Scaffold(
+      backgroundColor: AppColors.primaryBackground(brightness),
       appBar: AppBar(
+        backgroundColor: AppColors.primaryBackground(brightness),
         title: const Text("Centro de ayuda"),
+        centerTitle: true,
         bottom: TabBar(
           controller: _tabController,
           tabs: const [
