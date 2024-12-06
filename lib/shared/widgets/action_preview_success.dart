@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:pesa/shared/colors.dart';
-import 'package:pesa/src/app/routes.dart';
 
 class ActionPreviewSuccess extends StatefulWidget {
   final String type;
@@ -23,6 +22,7 @@ class ActionPreviewSuccess extends StatefulWidget {
 
 class _ActionPreviewSuccessState extends State<ActionPreviewSuccess> {
   bool isLoading = false;
+  bool showSuccessScreen = false;
 
   void simulateLoading() {
     setState(() {
@@ -32,51 +32,31 @@ class _ActionPreviewSuccessState extends State<ActionPreviewSuccess> {
     Timer(Duration(seconds: 2), () {
       setState(() {
         isLoading = false;
+        showSuccessScreen = true;
       });
-
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (_) => SuccessScreen(
-            goToReceipt: widget.goToReceipt,
-            goHome: () => Navigator.of(context).pop(),
-          ),
-        ),
-      );
     });
   }
 
   Widget buildDetails(Brightness brightness) {
-    Widget buildSection(String title, Widget listTile,Brightness brightness) {
-      return Container(
-        margin: const EdgeInsets.symmetric(vertical: 8),
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: AppColors.secondaryBackground(
-              brightness), // Adjust the background color
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 6,
-              offset: const Offset(0, 3),
+    Widget buildSection(String title, Widget listTile, Brightness brightness) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+                fontSize: 18, color: AppColors.primaryText(brightness)),
+          ),
+          const SizedBox(height: 8),
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: AppColors.secondaryBackground(brightness),
+              borderRadius: BorderRadius.circular(12),
             ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: Colors.black87,
-              ),
-            ),
-            const SizedBox(height: 8),
-            listTile,
-          ],
-        ),
+            child: listTile,
+          ),
+        ],
       );
     }
 
@@ -87,88 +67,59 @@ class _ActionPreviewSuccessState extends State<ActionPreviewSuccess> {
           children: [
             buildSection(
               'Desde',
-              ListTile(
-                leading: Icon(Icons.account_balance_wallet, color: Colors.blue),
-                title: Text(
-                  'Cuenta en USD',
-                  style: TextStyle(fontWeight: FontWeight.w600),
-                ),
-                subtitle: Text('\$2500.00'),
-              ),brightness
+              Stack(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(16.0),
+                    constraints: BoxConstraints(
+                      minWidth: MediaQuery.of(context).size.width * 0.9,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.secondaryBackground(brightness),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Cuenta en USD",
+                            style: TextStyle(
+                                color: AppColors.primaryText(brightness),
+                                fontSize: 16)),
+                        const SizedBox(height: 8),
+                        Text("\$2500.00",
+                            style: TextStyle(
+                                color: AppColors.primaryText(brightness),
+                                fontSize: 32,
+                                fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                  ),
+                  Positioned(
+                    top: 8,
+                    right: 8,
+                    child: Image.asset("assets/images/america.png",
+                        width: 40, height: 40),
+                  ),
+                ],
+              ),
+              brightness,
             ),
+            const SizedBox(height: 20),
             buildSection(
               'Hacia',
               ListTile(
                 leading: CircleAvatar(
-                  backgroundColor: Colors.blue,
-                  child: Text(
-                    'A',
-                    style: TextStyle(color: Colors.white),
-                  ),
+                  backgroundColor: AppColors.secondaryText(brightness),
+                  child: Icon(Icons.person,
+                      color: AppColors.primaryBackground(brightness)),
                 ),
-                title: Text(
-                  'Abigail Smith',
-                  style: TextStyle(fontWeight: FontWeight.w600),
-                ),
-                subtitle: Text('+250 786 584 924'),
-              ),brightness
-            ),
-          ],
-        );
-      case 'withdraw':
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            buildSection(
-              'Desde',
-              ListTile(
-                leading: Icon(Icons.account_balance_wallet, color: Colors.blue),
-                title: Text(
-                  'Cuenta en USD',
-                  style: TextStyle(fontWeight: FontWeight.w600),
-                ),
-                subtitle: Text('\$2500.00'),
+                title: Text("Abigail Smith",
+                    style: TextStyle(color: AppColors.primaryText(brightness))),
+                subtitle: Text("+250  786  564  924",
+                    style:
+                        TextStyle(color: AppColors.secondaryText(brightness))),
               ),
-              brightness
-            ),
-            buildSection(
-              'Hacia',
-              ListTile(
-                leading: Icon(Icons.account_balance, color: Colors.green),
-                title: Text(
-                  'Transferencia bancaria',
-                  style: TextStyle(fontWeight: FontWeight.w600),
-                ),
-                subtitle: Text('Llegará en: 0-2 días'),
-              ),brightness
-            ),
-          ],
-        );
-      case 'deposit':
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            buildSection(
-              'Por medio de',
-              ListTile(
-                leading: Icon(Icons.credit_card, color: Colors.orange),
-                title: Text(
-                  'Tarjeta de crédito',
-                  style: TextStyle(fontWeight: FontWeight.w600),
-                ),
-                subtitle: Text('Llegará en: Al instante'),
-              ),brightness
-            ),
-            buildSection(
-              'Hacia',
-              ListTile(
-                leading: Icon(Icons.account_balance_wallet, color: Colors.blue),
-                title: Text(
-                  'Cuenta en USD',
-                  style: TextStyle(fontWeight: FontWeight.w600),
-                ),
-                subtitle: Text('\$250.00'),
-              ),brightness
+              brightness,
             ),
           ],
         );
@@ -177,31 +128,109 @@ class _ActionPreviewSuccessState extends State<ActionPreviewSuccess> {
     }
   }
 
+  Widget buildSuccessScreen(Brightness brightness) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          height: 80,
+          width: 80,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: LinearGradient(
+                colors: [AppColors.primary(brightness), AppColors.secondary(brightness)]),
+          ),
+          child: Icon(Icons.check, size: 40, color: AppColors.primaryBackground(brightness)),
+        ),
+        const SizedBox(height: 24),
+        Text(
+          'Tu envío fue realizado',
+          style: TextStyle(
+              fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.primaryText(brightness)),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 12),
+        Text(
+          'Realizaste un envío a tu contacto Abigail Smith desde tu cuenta USD.',
+          style: TextStyle(fontSize: 16, color: AppColors.secondaryText(brightness)),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 32),
+        SizedBox(
+          width: double.infinity,
+          child: ElevatedButton(
+            onPressed: () => widget.goToReceipt(),
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(100)),
+              backgroundColor: Colors.transparent,
+              shadowColor: Colors.transparent,
+            ).copyWith(
+              backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                  (states) => Colors.transparent),
+            ),
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    colors: [AppColors.primary(brightness), AppColors.secondary(brightness)]),
+                borderRadius: BorderRadius.circular(100),
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              alignment: Alignment.center,
+              child: Text('Ver recibo',
+                  style: TextStyle(
+                      color: AppColors.primaryBackground(brightness),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16)),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final brightness = Theme.of(context).brightness;
+
+    if (showSuccessScreen) {
+      return Scaffold(
+        backgroundColor: Colors.black,
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: buildSuccessScreen(brightness),
+        ),
+      );
+    }
+
     return Scaffold(
       backgroundColor: AppColors.primaryBackground(brightness),
       appBar: AppBar(
         backgroundColor: AppColors.primaryBackground(brightness),
         leading: IconButton(
-            onPressed: () {
-              widget.back();
-            },
-            icon: Icon(Icons.arrow_back,
-                color: AppColors.primaryText(brightness))),
-        title: Text(
-          'Detalle de ${widget.type}',
-          style: TextStyle(color: AppColors.primaryText(brightness)),
+          onPressed: () => widget.back(),
+          icon:
+              Icon(Icons.arrow_back, color: AppColors.primaryText(brightness)),
         ),
+        title: Text('Detalle de ${widget.type}',
+            style: TextStyle(color: AppColors.primaryText(brightness))),
         centerTitle: true,
       ),
-      body: isLoading
-          ? Center(child: CircularProgressIndicator())
-          : Padding(
-              padding: const EdgeInsets.all(16.0),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(15),
+              decoration: BoxDecoration(
+                color: AppColors.secondaryBackground(brightness),
+                borderRadius: BorderRadius.circular(16),
+              ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     '\$500.00',
@@ -210,117 +239,131 @@ class _ActionPreviewSuccessState extends State<ActionPreviewSuccess> {
                         fontWeight: FontWeight.bold,
                         color: AppColors.primaryText(brightness)),
                   ),
-                  SizedBox(height: 16),
-                  buildDetails(brightness),
-                  SizedBox(height: 16),
-                  Text(
-                    'Monto de ${widget.type}',
-                    style: TextStyle(
-                        fontSize: 16, color: AppColors.primaryText(brightness)),
-                  ),
-                  ListTile(
-                    title: Text(
-                      '\$500.00',
-                      style:
-                          TextStyle(color: AppColors.primaryText(brightness)),
-                    ),
-                    subtitle: Text(
-                      'Comisiones: Gratis',
-                      style:
-                          TextStyle(color: AppColors.primaryText(brightness)),
-                    ),
-                    trailing: Text(
-                      'Recibirás: \$500.00',
-                      style:
-                          TextStyle(color: AppColors.primaryText(brightness)),
-                    ),
-                  ),
-                  Spacer(),
-                  SizedBox(
-                    width: double.infinity,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            AppColors.primary(brightness),
-                            AppColors.secondary(brightness),
-                          ],
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                        ),
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, AppRoutes.home);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.transparent,
-                          shadowColor:
-                              Colors.transparent, // Removes button shadow
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                        ),
-                        child: Text(
-                          'Confirmar ${widget.type}',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.tertiaryText(brightness),
-                          ),
+                  const SizedBox(height: 10),
+                  Text('Monto',
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: AppColors.primaryText(brightness))),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+            buildDetails(brightness),
+            const SizedBox(height: 16),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(15),
+              decoration: BoxDecoration(
+                color: AppColors.secondaryBackground(brightness),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Monto de envio",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.primaryText(brightness),
                         ),
                       ),
-                    ),
+                      Text(
+                        "\$500.00",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.primaryText(brightness),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Comisiones",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.primaryText(brightness),
+                        ),
+                      ),
+                      Text(
+                        "Gratis",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.primaryText(brightness),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  const Divider(color: Color(0xFF404040)),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Recibirás:",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.primaryText(brightness),
+                        ),
+                      ),
+                      Text(
+                        "\$500.00",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.primary(brightness),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
-    );
-  }
-}
-
-class SuccessScreen extends StatelessWidget {
-  final Function goToReceipt;
-  final Function goHome;
-
-  const SuccessScreen(
-      {required this.goToReceipt, required this.goHome, Key? key})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.check_circle, size: 80, color: Colors.green),
-            SizedBox(height: 16),
-            Text(
-              '¡Transacción exitosa!',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 16),
-            Text(
-              'Tu transacción se ha completado correctamente.',
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 32),
-            ElevatedButton(
-              onPressed: () => goToReceipt(),
-              child: Text('Ir al recibo'),
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size(double.infinity, 50),
-              ),
-            ),
-            SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () => goHome(),
-              child: Text('Ir a Inicio'),
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size(double.infinity, 50),
-                backgroundColor: Colors.grey,
+            const SizedBox(height: 32),
+            SizedBox(
+              width: double.infinity,
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      AppColors.primary(brightness),
+                      AppColors.secondary(brightness),
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
+                  borderRadius: BorderRadius.circular(100),
+                ),
+                child: ElevatedButton(
+                  onPressed: isLoading ? null : simulateLoading,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.transparent,
+                    shadowColor: Colors.transparent,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                  ),
+                  child: isLoading
+                      ? SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(
+                              color: AppColors.primaryBackground(brightness), strokeWidth: 2),
+                        )
+                      : Text('Confirmar ${widget.type}',
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.primaryBackground(brightness))),
+                ),
               ),
             ),
           ],
