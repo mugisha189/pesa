@@ -26,12 +26,12 @@ class _SendScreenState extends State<SendScreen>
     );
 
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 150),
       vsync: this,
     );
 
     _slideAnimation = Tween<Offset>(
-      begin: Offset(1.0, 0.0),
+      begin: Offset(-1.0, 0.0), // Start from the left (move to the right)
       end: Offset.zero,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
 
