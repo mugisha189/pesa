@@ -50,7 +50,7 @@ class CardWidget extends StatelessWidget {
         'label': 'Retirar',
         'iconPath': AppImages.withdrawIcon,
         'onPressed': () {
-          print('Retirar action triggered');
+          Navigator.pushNamed(context, AppRoutes.withdrawal);
         },
       },
       {

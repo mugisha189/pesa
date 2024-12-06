@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:pesa/shared/colors.dart';
+import 'package:pesa/shared/images.dart';
 
 class ActionPreviewSuccess extends StatefulWidget {
   final String type;
@@ -123,6 +124,104 @@ class _ActionPreviewSuccessState extends State<ActionPreviewSuccess> {
             ),
           ],
         );
+      case 'withdraw':
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            buildSection(
+              'Desde',
+              Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                  decoration: BoxDecoration(
+                    color: AppColors.secondaryBackground(brightness),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Transferencia bancaria",
+                              style: TextStyle(
+                                color: AppColors.primaryText(brightness),
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 4),
+                            Text(
+                              "USD",
+                              style: TextStyle(
+                                color: AppColors.primary(brightness),
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 4),
+                            Text(
+                              "Procesado en: 1-2 días",
+                              style: TextStyle(
+                                  color: AppColors.secondaryText(brightness),
+                                  fontSize: 14),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(width: 16),
+                        Image.asset(AppImages.americanFlag,
+                            height: 40, width: 40),
+                      ]),
+                ),
+              ),
+              brightness,
+            ),
+            const SizedBox(height: 20),
+            buildSection(
+              'Hacia',
+              Stack(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(16.0),
+                    constraints: BoxConstraints(
+                      minWidth: MediaQuery.of(context).size.width * 0.9,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.secondaryBackground(brightness),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Cuenta en USD",
+                            style: TextStyle(
+                                color: AppColors.primaryText(brightness),
+                                fontSize: 16)),
+                        const SizedBox(height: 8),
+                        Text("\$2500.00",
+                            style: TextStyle(
+                                color: AppColors.primaryText(brightness),
+                                fontSize: 32,
+                                fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                  ),
+                  Positioned(
+                    top: 8,
+                    right: 8,
+                    child: Image.asset("assets/images/america.png",
+                        width: 40, height: 40),
+                  ),
+                ],
+              ),
+              brightness,
+            ),
+          ],
+        );
+
       default:
         return const SizedBox();
     }
@@ -137,22 +236,28 @@ class _ActionPreviewSuccessState extends State<ActionPreviewSuccess> {
           width: 80,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            gradient: LinearGradient(
-                colors: [AppColors.primary(brightness), AppColors.secondary(brightness)]),
+            gradient: LinearGradient(colors: [
+              AppColors.primary(brightness),
+              AppColors.secondary(brightness)
+            ]),
           ),
-          child: Icon(Icons.check, size: 40, color: AppColors.primaryBackground(brightness)),
+          child: Icon(Icons.check,
+              size: 40, color: AppColors.primaryBackground(brightness)),
         ),
         const SizedBox(height: 24),
         Text(
           'Tu envío fue realizado',
           style: TextStyle(
-              fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.primaryText(brightness)),
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: AppColors.primaryText(brightness)),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 12),
         Text(
           'Realizaste un envío a tu contacto Abigail Smith desde tu cuenta USD.',
-          style: TextStyle(fontSize: 16, color: AppColors.secondaryText(brightness)),
+          style: TextStyle(
+              fontSize: 16, color: AppColors.secondaryText(brightness)),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 32),
@@ -172,8 +277,10 @@ class _ActionPreviewSuccessState extends State<ActionPreviewSuccess> {
             ),
             child: Container(
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    colors: [AppColors.primary(brightness), AppColors.secondary(brightness)]),
+                gradient: LinearGradient(colors: [
+                  AppColors.primary(brightness),
+                  AppColors.secondary(brightness)
+                ]),
                 borderRadius: BorderRadius.circular(100),
               ),
               padding: const EdgeInsets.symmetric(vertical: 16),
@@ -247,9 +354,9 @@ class _ActionPreviewSuccessState extends State<ActionPreviewSuccess> {
                 ],
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 30),
             buildDetails(brightness),
-            const SizedBox(height: 16),
+            const SizedBox(height: 30),
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(15),
@@ -329,7 +436,7 @@ class _ActionPreviewSuccessState extends State<ActionPreviewSuccess> {
                 ],
               ),
             ),
-            const SizedBox(height: 32),
+            const SizedBox(height: 30),
             SizedBox(
               width: double.infinity,
               child: Container(
@@ -356,7 +463,8 @@ class _ActionPreviewSuccessState extends State<ActionPreviewSuccess> {
                           height: 20,
                           width: 20,
                           child: CircularProgressIndicator(
-                              color: AppColors.primaryBackground(brightness), strokeWidth: 2),
+                              color: AppColors.primaryBackground(brightness),
+                              strokeWidth: 2),
                         )
                       : Text('Confirmar ${widget.type}',
                           style: TextStyle(

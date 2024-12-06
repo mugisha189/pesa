@@ -1,76 +1,101 @@
 import 'package:flutter/material.dart';
-import 'package:pesa/src/features/withdrawal/models/withdrawal.dart';
-import 'package:pesa/src/features/withdrawal/widgets/choosing_account_amount.dart';
-import 'package:pesa/src/features/withdrawal/widgets/choose_method.dart';
-import 'package:pesa/src/features/withdrawal/widgets/preview.dart';
-import 'package:pesa/src/features/withdrawal/widgets/success.dart';
-// import 'package:pesa/src/features/withdrawal/widgets/receipt.dart';
+import 'package:pesa/shared/widgets/action_preview_success.dart';
+import 'package:pesa/shared/widgets/choose_payment_method/presentation/choose_payment_method.dart';
+import 'package:pesa/shared/widgets/enter_amount/view/enter_amount.dart';
+import 'package:pesa/shared/widgets/reciept.dart';
 
 class WithdrawalScreen extends StatefulWidget {
-  const WithdrawalScreen({Key? key}) : super(key: key);
-
   @override
   _WithdrawalScreenState createState() => _WithdrawalScreenState();
 }
 
-class _WithdrawalScreenState extends State<WithdrawalScreen> {
-  Withdrawal withdrawal = Withdrawal(amount: 100.0, method: 'Bank Transfer',card: "asdfasd");
-  late Widget currentComponent;
+class _WithdrawalScreenState extends State<WithdrawalScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<Offset> _slideAnimation;
+  late Widget activeComponent;
 
   @override
   void initState() {
     super.initState();
-    currentComponent = ChoosingAccountAmount(
-      withdrawal: withdrawal,
-      onChange: (amount) {
-        setState(() {
-          withdrawal.amount = amount;
-        });
-      },
-      goToNext: () {
-        setState(() {
-          currentComponent = ChooseMethod(
-            withdrawal: withdrawal,
-            onChange: (method) {
-              setState(() {
-                withdrawal.method = method;
-              });
-            },
-            goToNext: () {
-              setState(() {
-                currentComponent = Preview(
-                  withdrawal: withdrawal,
-                  goToNext: () {
-                    setState(() {
-                      currentComponent = Success(
-                        withdrawal: withdrawal,
-                        goToNext: () {
-                          // setState(() {
-                          //   currentComponent = Receipt(
-                          //     withdrawal: withdrawal,
-                          //     goToNext: () {
-                          //       // Navigate to another screen or reset
-                          //     },
-                          //   );
-                          // });
-                        },
-                      );
-                    });
-                  },
-                );
-              });
-            },
-          );
-        });
+
+    activeComponent = EnterAmount(
+      type: 'Withdraw',
+      back: () => Navigator.pop(context),
+      next: (double amount) {
+        _switchToChoosingPaymentMethod(amount);
       },
     );
+
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 150),
+      vsync: this,
+    );
+
+    _slideAnimation = Tween<Offset>(
+      begin: Offset(-1.0, 0.0),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+
+    _controller.forward();
+  }
+
+  void _switchToChoosingPaymentMethod(double amount) {
+    _controller.reverse().then((_) {
+      setState(() {
+        activeComponent = ChoosingPaymentMethod(
+          type: 'Withdraw',
+          // onChange: (double updatedAmount) {},
+          goToNext: () {
+            _switchToActionPreview(amount);
+          },
+        );
+      });
+      _controller.forward();
+    });
+  }
+
+  void _switchToActionPreview(double amount) {
+    _controller.reverse().then((_) {
+      setState(() {
+        activeComponent = ActionPreviewSuccess(
+          type: 'withdraw',
+          act: () {},
+          back: () {
+            _switchToChoosingPaymentMethod(amount);
+          },
+          goToReceipt: () {
+            _switchToReceipt(amount);
+          },
+        );
+      });
+      _controller.forward();
+    });
+  }
+
+  void _switchToReceipt(double amount) {
+    _controller.reverse().then((_) {
+      setState(() {
+        activeComponent = Receipt();
+      });
+      _controller.forward();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Withdrawal')),
-      body: currentComponent,
+      backgroundColor: Colors.black,
+      body: SlideTransition(
+        position: _slideAnimation,
+        child: activeComponent,
+      ),
     );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }
