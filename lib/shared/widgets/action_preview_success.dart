@@ -129,7 +129,104 @@ class _ActionPreviewSuccessState extends State<ActionPreviewSuccess> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             buildSection(
+              'Hacia',
+              Stack(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(16.0),
+                    constraints: BoxConstraints(
+                      minWidth: MediaQuery.of(context).size.width * 0.9,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.secondaryBackground(brightness),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Cuenta en USD",
+                            style: TextStyle(
+                                color: AppColors.primaryText(brightness),
+                                fontSize: 16)),
+                        const SizedBox(height: 8),
+                        Text("\$2500.00",
+                            style: TextStyle(
+                                color: AppColors.primaryText(brightness),
+                                fontSize: 32,
+                                fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                  ),
+                  Positioned(
+                    top: 8,
+                    right: 8,
+                    child: Image.asset("assets/images/america.png",
+                        width: 40, height: 40),
+                  ),
+                ],
+              ),
+              brightness,
+            ),
+            const SizedBox(height: 20),
+            buildSection(
               'Desde',
+              Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                  decoration: BoxDecoration(
+                    color: AppColors.secondaryBackground(brightness),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Transferencia bancaria",
+                              style: TextStyle(
+                                color: AppColors.primaryText(brightness),
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 4),
+                            Text(
+                              "USD",
+                              style: TextStyle(
+                                color: AppColors.primary(brightness),
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 4),
+                            Text(
+                              "Procesado en: 1-2 días",
+                              style: TextStyle(
+                                  color: AppColors.secondaryText(brightness),
+                                  fontSize: 14),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(width: 16),
+                        Image.asset(AppImages.americanFlag,
+                            height: 40, width: 40),
+                      ]),
+                ),
+              ),
+              brightness,
+            ),
+          ],
+        );
+      case 'deposit':
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            buildSection(
+              'Por medio de',
               Padding(
                 padding: const EdgeInsets.only(bottom: 12),
                 child: Container(

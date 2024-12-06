@@ -96,10 +96,11 @@ class ChoosingPaymentMethod extends StatelessWidget {
                 child: GestureDetector(
                   onTap: goToNext,
                   child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
@@ -110,7 +111,7 @@ class ChoosingPaymentMethod extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            SizedBox(height: 4),
+                            const SizedBox(height: 4),
                             Text(
                               option["currency"]!,
                               style: TextStyle(
@@ -128,9 +129,11 @@ class ChoosingPaymentMethod extends StatelessWidget {
                             ),
                           ],
                         ),
-                        const SizedBox(width: 16),
-                        Image.asset(option["icon"]!, height: 40, width: 40),
-                      ]),
+                      ),
+                      const SizedBox(width: 16),
+                      Image.asset(option["icon"]!, height: 40, width: 40),
+                    ],
+                  ),
                 ),
               ),
             );

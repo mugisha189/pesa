@@ -57,7 +57,7 @@ class CardWidget extends StatelessWidget {
         'label': 'Recargar',
         'iconPath': AppImages.depositIcon,
         'onPressed': () {
-          print('Recargar action triggered');
+          Navigator.pushNamed(context, AppRoutes.deposit);
         },
       },
       {
@@ -157,6 +157,5 @@ class CardWidget extends StatelessWidget {
         ),
       ],
     );
-  
   }
 }
