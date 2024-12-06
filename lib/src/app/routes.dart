@@ -3,6 +3,7 @@ import 'package:pesa/src/features/auth/presentation/complete_profile_screen.dart
 import 'package:pesa/src/features/auth/presentation/new_password_screen.dart';
 import 'package:pesa/src/features/auth/presentation/reset_screen.dart';
 import 'package:pesa/src/features/auth/presentation/verification_screen.dart';
+import 'package:pesa/src/features/deposit/presentation/deposit_screen.dart';
 import 'package:pesa/src/features/send/screens/send_screen.dart';
 import 'package:pesa/src/features/settings/presentation/help_screen.dart';
 import 'package:pesa/src/features/settings/presentation/languages_screen.dart';
@@ -25,6 +26,7 @@ class AppRoutes {
   static const String home = '/home';
   static const String transactions = '/transactions';
   static const String withdrawal = '/withdrawal';
+  static const String deposit = '/deposit';
   static const String send = '/send';
   static const String notifications = '/notifications';
   static const String settings = '/settings';
@@ -52,6 +54,8 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => TransactionScreen());
       case withdrawal:
         return MaterialPageRoute(builder: (_) => WithdrawalScreen());
+      case deposit:
+        return MaterialPageRoute(builder: (_) => DepositScreen());
       case send:
         return MaterialPageRoute(builder: (_) => SendScreen());
       case notifications:
